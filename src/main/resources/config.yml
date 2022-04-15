@@ -1,0 +1,3 @@
+messages:
+  cashback-success: "&cYou got &2%.2f &ccashback!"
+  cashback-fail: "%22773fCashback operation failed!"
