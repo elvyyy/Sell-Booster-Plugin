@@ -10,23 +10,23 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.permissions.PermissionAttachmentInfo;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.Set;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 public class SellBooster extends JavaPlugin implements Listener {
 
     private final Pattern permissionPattern = Pattern.compile("^boost.money.[1-9][0-9]{0,4}$");
-    private LuckPerms luckPerms;
 
     @Override
     public void onEnable() {
         this.saveDefaultConfig();
         Utils.cfg = this.getConfig();
-        luckPerms = LuckPermsProvider.get();
         Bukkit.getPluginManager().registerEvents(this, this);
     }
 
@@ -36,9 +36,13 @@ public class SellBooster extends JavaPlugin implements Listener {
             return;
         }
         final var player = e.getPlayer();
-        final var user = luckPerms.getPlayerAdapter(Player.class).getUser(player);
-        final var permissions = user.getNodes(NodeType.PERMISSION).stream()
-                .map(PermissionNode::getPermission)
+//        final var user = luckPerms.getPlayerAdapter(Player.class).getUser(player);
+//        final var permissions = user.getNodes(NodeType.PERMISSION).stream()
+//                .map(PermissionNode::getPermission)
+//                .filter(permissionPattern.asMatchPredicate())
+//                .collect(Collectors.toSet());
+        final var permissions = player.getEffectivePermissions().stream()
+                .map(PermissionAttachmentInfo::getPermission)
                 .filter(permissionPattern.asMatchPredicate())
                 .collect(Collectors.toSet());
 

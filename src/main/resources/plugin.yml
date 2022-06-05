@@ -1,5 +1,5 @@
 name: SellBooster
 main: uladzislau.churyla.booster.sell.SellBooster
 version: 1.0.0
-softdepend: [Vault, Essentials, LuckPerms]
+softdepend: [Vault, Essentials]
 description: Money booster
