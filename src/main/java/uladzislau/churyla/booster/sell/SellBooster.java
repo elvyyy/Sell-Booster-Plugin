@@ -4,8 +4,6 @@ import com.earth2me.essentials.Essentials;
 import com.earth2me.essentials.commands.Commandsell;
 import net.ess3.api.events.UserBalanceUpdateEvent;
 import net.ess3.api.events.UserBalanceUpdateEvent.Cause;
-import net.luckperms.api.LuckPerms;
-import net.luckperms.api.LuckPermsProvider;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -22,7 +20,6 @@ import java.util.stream.Collectors;
 public class SellBooster extends JavaPlugin implements Listener {
 
     private final Pattern permissionPattern = Pattern.compile("^boost.money.[1-9][0-9]{0,4}$");
-    private LuckPerms luckPerms;
 
     private Essentials essentials;
 
@@ -30,7 +27,6 @@ public class SellBooster extends JavaPlugin implements Listener {
     public void onEnable() {
         this.saveDefaultConfig();
         Utils.cfg = this.getConfig();
-        luckPerms = LuckPermsProvider.get();
         essentials = (Essentials) Bukkit.getPluginManager().getPlugin("Essentials");
         Bukkit.getPluginManager().registerEvents(this, this);
     }
@@ -41,11 +37,6 @@ public class SellBooster extends JavaPlugin implements Listener {
             return;
         }
         final var player = e.getPlayer();
-//        final var user = luckPerms.getPlayerAdapter(Player.class).getUser(player);
-//        final var permissions = user.getNodes(NodeType.PERMISSION).stream()
-//                .map(PermissionNode::getPermission)
-//                .filter(permissionPattern.asMatchPredicate())
-//                .collect(Collectors.toSet());
         final var permissions = player.getEffectivePermissions().stream()
                 .map(PermissionAttachmentInfo::getPermission)
                 .filter(permissionPattern.asMatchPredicate())
